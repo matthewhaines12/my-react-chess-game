@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import SliderExample from "./SliderExample";
 
 const HomeMenu = () => {
+  const [color, setColor] = useState("White");
+  const [difficulty, setDifficulty] = useState(1000);
+
+  const buttonColor = (selectedColor) =>
+    `w-full py-2 ${
+      color === selectedColor ? "bg-blue-400" : "bg-gray-300"
+    } rounded-lg hover:bg-gray-400`;
+
+  const handleSliderChange = (event, newVal) => {
+    setDifficulty(newVal);
+  };
+
   return (
     <div className="justify-center bg-gray-200 text-center min-h-screen flex items-center">
       <div className="bg-white shadow-md rounded-lg p-6">
@@ -10,12 +23,18 @@ const HomeMenu = () => {
           <h2 className="text-lg font-semibold mb-2">Select Color</h2>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <button className="w-full py-2 bg-gray-300 rounded-lg hover:bg-gray-400">
+              <button
+                onClick={() => setColor("White")}
+                className={buttonColor("White")}
+              >
                 White
               </button>
             </div>
             <div>
-              <button className="w-full py-2 bg-gray-300 rounded-lg hover:bg-gray-400">
+              <button
+                onClick={() => setColor("Black")}
+                className={buttonColor("Black")}
+              >
                 Black
               </button>
             </div>
@@ -26,12 +45,18 @@ const HomeMenu = () => {
           <h2 className="text-lg font-semibold mb-2">
             Select Computer Difficulty
           </h2>
-          <SliderExample />
+          <SliderExample
+            difficulty={difficulty}
+            handleSliderChange={handleSliderChange}
+          />
+          <p>Difficulty: {difficulty}</p>
         </div>
 
-        <button className="mt-6 w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-          Start Game
-        </button>
+        <Link to="/game">
+          <button className="mt-6 w-full py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+            Start Game
+          </button>
+        </Link>
       </div>
     </div>
   );
